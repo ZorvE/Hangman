@@ -23,8 +23,6 @@ root.title("Hangman")
 def send_guess():
     global game_is_on, hanging_image, guesses, word_progress, wrong_guesses
 
-    progress_test_before = word_progress
-
     entry_content = letter_guess.get()
     if wrong_guesses == allowed_guesses:
         game_is_on = False
@@ -34,12 +32,12 @@ def send_guess():
         letter_guess.delete(0, "end")
 
     if game_is_on:
+        progress_test_before = word_progress
         update_hidden_word(entry_content)
         progress_test_after = list_to_string(hidden_word)
 
         if progress_test_before == progress_test_after:
-            wrong_guesses += 1
-            guess_amount.set(str(wrong_guesses) + "/" + str(allowed_guesses))
+            guess_is_wrong()
 
         word_progress = list_to_string(hidden_word)
         if entry_content.isalpha():
@@ -86,6 +84,21 @@ def reveal_clue():
         clue_amount.set(str(clue_level) + "/" + str(allowed_clues))
         clue_img = ImageTk.PhotoImage(Image.open(str(clue_level) + secret_word + ".jpg"))
         clue_label.configure(image=clue_img)
+
+def guess_is_wrong():
+    global wrong_guesses, hanging_image, hanging_progress, allowed_guesses
+    wrong_guesses += 1
+    guess_amount.set(str(wrong_guesses) + "/" + str(allowed_guesses))
+
+    ####
+    # Räkna upp vilka felgissningar som varit?, eventuell hindra att gissa på samma?
+    ####
+
+    ####
+    # anpassa vilken bild som visas upp i förhållande till hur många gissningar som kan göras. 16/allowed_guesses? Fix this
+    ####
+    hanging_image = ImageTk.PhotoImage(Image.open("hanged man " + str(round(wrong_guesses*(16/allowed_guesses))) + ".jpg"))
+    hanging_progress.configure(image=hanging_image)
 
 
 def list_to_string(the_list):
