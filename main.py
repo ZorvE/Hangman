@@ -13,10 +13,11 @@ guesses = 0
 wrong_guesses = 0
 allowed_guesses = len(secret_word) - 2
 allowed_clues = 3
+right_answer_point = 7
 
 
 root = tk.Tk()
-root.geometry("1200x500")
+root.geometry("1400x500")
 root.title("Hangman")
 
 
@@ -78,12 +79,15 @@ def send_guess():
 
 
 def reveal_clue():
-    global clue_level, clue_img
+    global clue_level, clue_img, right_answer_point
     clue_level += 1
+
     if clue_level <= allowed_clues:
         clue_amount.set(str(clue_level) + "/" + str(allowed_clues))
         clue_img = ImageTk.PhotoImage(Image.open(str(clue_level) + secret_word + ".jpg"))
         clue_label.configure(image=clue_img)
+        right_answer_point -= 2
+        point_amount.set("Points for the right answer: " + str(right_answer_point))
 
 
 def guess_is_wrong():
@@ -170,5 +174,10 @@ clue_amount = tk.StringVar()
 clue_amount.set(str(clue_level) + "/" + str(allowed_clues))
 clue_progress = tk.Label(textvariable=clue_amount)
 clue_progress.grid(column=2, row=0)
+
+point_amount = tk.StringVar()
+point_amount.set("Points for the right answer: " + str(right_answer_point))
+point_display = tk.Label(textvariable=point_amount)
+point_display.grid(column=3, row=1)
 
 root.mainloop()
