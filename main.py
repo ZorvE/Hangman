@@ -85,6 +85,7 @@ def reveal_clue():
         clue_img = ImageTk.PhotoImage(Image.open(str(clue_level) + secret_word + ".jpg"))
         clue_label.configure(image=clue_img)
 
+
 def guess_is_wrong():
     global wrong_guesses, hanging_image, hanging_progress, allowed_guesses
     wrong_guesses += 1
@@ -94,10 +95,9 @@ def guess_is_wrong():
     # Räkna upp vilka felgissningar som varit?, eventuell hindra att gissa på samma?
     ####
 
-    ####
-    # anpassa vilken bild som visas upp i förhållande till hur många gissningar som kan göras. 16/allowed_guesses? Fix this
-    ####
-    hanging_image = ImageTk.PhotoImage(Image.open("hanged man " + str(round(wrong_guesses*(16/allowed_guesses))) + ".jpg"))
+    image_change_factor = wrong_guesses*(16/allowed_guesses)
+
+    hanging_image = ImageTk.PhotoImage(Image.open("hanged man " + str(round(image_change_factor)) + ".jpg"))
     hanging_progress.configure(image=hanging_image)
 
 
@@ -141,7 +141,7 @@ revealed_letters.set(list_to_string(hidden_word))
 word_progress_label = tk.Label(textvariable=revealed_letters)
 word_progress_label.grid(column=1, row=0)
 
-hanging_image = ImageTk.PhotoImage(Image.open("hanged man.jpg"))
+hanging_image = ImageTk.PhotoImage(Image.open("hanged man 0.jpg"))
 hanging_progress = tk.Label(image=hanging_image)
 hanging_progress.grid(column=0, row=1)
 
