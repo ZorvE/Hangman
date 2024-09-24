@@ -1,6 +1,6 @@
 import tkinter as tk
-import Image
-import ImageTk
+from PIL import Image
+from PIL import ImageTk
 import random
 
 secret_words = ["blueberry", "strawberry", "cherry"]
@@ -135,7 +135,7 @@ def update_hidden_word(guess_entry):
 
         revealed_letters.set(list_to_string(hidden_word))
 
-
+#fixa en back-end klass och en front-end klass
 create_hidden_word()
 
 word_progress = list_to_string(hidden_word)
